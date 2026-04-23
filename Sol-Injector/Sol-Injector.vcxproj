@@ -146,6 +146,7 @@
     <ClCompile Include="getUserChoice.cpp" />
     <ClCompile Include="getUserTargetPID.cpp" />
     <ClCompile Include="Sol-Injector.cpp" />
+    <ClCompile Include="waitForKey.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="changeConsoleTextColor.h" />
@@ -155,7 +156,9 @@
     <ClInclude Include="getAndPrintProcessList.h" />
     <ClInclude Include="getUserChoice.h" />
     <ClInclude Include="getUserTargetPID.h" />
+    <ClInclude Include="injectionMethods.h" />
     <ClInclude Include="userChoiceEnum.h" />
+    <ClInclude Include="waitForKey.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

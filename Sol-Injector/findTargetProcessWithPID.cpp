@@ -3,10 +3,11 @@
 
 #include "findTargetProcessWithPID.h"
 #include "changeConsoleTextColor.h"
+#include "waitForKey.h"
 
 // get PID
 
-bool FindTargetProcessWithPID(const int PID)
+bool FindTargetProcessWithPID(const DWORD PID)
 {
 	// Clear screen
 	system("CLS");
@@ -41,13 +42,15 @@ bool FindTargetProcessWithPID(const int PID)
 		return false;
 	}
 	
-	// vector to store pid list
+	// vectors to store pid list and name 
 	std::vector<DWORD> pidList;
+	std::vector<std::wstring> processName;
 
 	// while there is a next entry in the list push it onto the vector to make the list
 	do
 	{
 		pidList.push_back(pe32.th32ProcessID);
+		processName.push_back(pe32.szExeFile);
 
 	} while (Process32Next(hProcessList, &pe32));
 
@@ -60,8 +63,20 @@ bool FindTargetProcessWithPID(const int PID)
 		if (pidList[i] == PID)
 		{
 			changeConsoleOutPutColor(consoleColor::BrightGreen);
-			std::cout << "Process Found!\n";
-			changeConsoleOutPutColor(consoleColor::White);
+	
+
+			// print name and pid
+			std::cout << "PROCESS FOUND!\n";
+			std::cout << "=============================================\n";
+			std::wcout << "NAME: " << processName[i] << "\n";
+			std::cout << "PID:  " << pidList[i] << "\n";
+			std::cout << "=============================================\n";
+			std::cout << "Press enter to see injection methods:";
+			
+			// clear input buffer and wait for key
+			waitForKey();
+			// Clear screen for next menu
+			system("CLS");
 			found = true;
 			break;
 		}
@@ -73,6 +88,10 @@ bool FindTargetProcessWithPID(const int PID)
 		changeConsoleOutPutColor(consoleColor::Red);
 		std::cout << "Process not found make sure the process is running and try again\n";
 		changeConsoleOutPutColor(consoleColor::White);
+		
+		// wait for key and return to menu
+		waitForKey();
+
 	}
 	// clean up handle
 	CloseHandle(hProcessList);

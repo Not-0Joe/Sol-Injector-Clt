@@ -1,6 +1,7 @@
 #include "getAndPrintProcessList.h"
 #include "changeConsoleTextColor.h"
 #include "consoleColorEnums.h" // for color change while printing process list
+#include "waitForKey.h"
 #include <limits>
 
 // take snapshot of all running process and print names and PID
@@ -51,8 +52,7 @@ void getAndPrintProcesslist()
 	changeConsoleOutPutColor(consoleColor::White);
 	
 	// clear buffer and wait for user to press a key
-	std::cin.ignore(99999999, '\n');
-	std::cin.get();
+	waitForKey();
 	// clear screen
 	system("CLS");
 	

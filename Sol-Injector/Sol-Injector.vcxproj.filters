@@ -36,6 +36,9 @@
     <ClCompile Include="getUserTargetPID.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="waitForKey.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="changeConsoleTextColor.h">
@@ -60,6 +63,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="getUserTargetPID.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="waitForKey.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="injectionMethods.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
