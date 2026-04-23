@@ -63,13 +63,16 @@ bool FindTargetProcessWithPID(const int PID)
 			std::cout << "Process Found!\n";
 			changeConsoleOutPutColor(consoleColor::White);
 			found = true;
-			CloseHandle(hProcessList);
 			break;
 		}
+		
+		
+	}
+	if (found == false)
+	{
 		changeConsoleOutPutColor(consoleColor::Red);
 		std::cout << "Process not found make sure the process is running and try again\n";
 		changeConsoleOutPutColor(consoleColor::White);
-
 	}
 	// clean up handle
 	CloseHandle(hProcessList);
