@@ -1,0 +1,78 @@
+// get list of PIDs put them into a vector then walk the list and compare with the PID
+// the user enterd
+
+#include "findTargetProcessWithPID.h"
+#include "changeConsoleTextColor.h"
+
+// get PID
+
+bool FindTargetProcessWithPID(const int PID)
+{
+	// Clear screen
+	system("CLS");
+	changeConsoleOutPutColor(consoleColor::Green);
+	std::cout << "Checking running processes for PID match...\n";
+	changeConsoleOutPutColor(consoleColor::White);
+
+	// snapshot process and put pids into a vector to compare to
+
+	HANDLE hProcessList = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+
+	if (hProcessList == INVALID_HANDLE_VALUE)
+	{
+		changeConsoleOutPutColor(consoleColor::Red);
+		std::cerr << "ERROR: Handle to process list is NULL\n";
+		changeConsoleOutPutColor(consoleColor::White);
+		CloseHandle(hProcessList);
+		return false;
+	}
+
+	PROCESSENTRY32 pe32;
+	// set dwSzie
+	pe32.dwSize = sizeof(PROCESSENTRY32);
+
+	// both checks for error and grabs the first entry
+	if (!Process32First(hProcessList, &pe32))
+	{
+		changeConsoleOutPutColor(consoleColor::Red);
+		std::cerr << "ERROR: Process32First Failed to get first snapshot entry\n";
+		changeConsoleOutPutColor(consoleColor::White);
+		CloseHandle(hProcessList);
+		return false;
+	}
+	
+	// vector to store pid list
+	std::vector<DWORD> pidList;
+
+	// while there is a next entry in the list push it onto the vector to make the list
+	do
+	{
+		pidList.push_back(pe32.th32ProcessID);
+
+	} while (Process32Next(hProcessList, &pe32));
+
+	// index that list compare if the users PID matchs one found in the list
+
+	bool found = false;
+
+	for (size_t i{ 0 }; i < pidList.size(); i++)
+	{
+		if (pidList[i] == PID)
+		{
+			changeConsoleOutPutColor(consoleColor::BrightGreen);
+			std::cout << "Process Found!\n";
+			changeConsoleOutPutColor(consoleColor::White);
+			found = true;
+			CloseHandle(hProcessList);
+			break;
+		}
+		changeConsoleOutPutColor(consoleColor::Red);
+		std::cout << "Process not found make sure the process is running and try again\n";
+		changeConsoleOutPutColor(consoleColor::White);
+
+	}
+	// clean up handle
+	CloseHandle(hProcessList);
+	return found;
+
+}

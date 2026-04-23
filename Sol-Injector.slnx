@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="Sol-Injector/Sol-Injector.vcxproj" Id="8eb4706c-8ed2-40b0-9fdb-9c1765f5f44a" />
+</Solution>

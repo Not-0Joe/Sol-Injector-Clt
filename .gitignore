@@ -1,0 +1,31 @@
+# --- Visual Studio ---
+.vs/
+out/
+debug/
+release/
+x64/
+x86/
+*.user
+*.aps
+*.opendb
+*.pdb
+*.ipch
+
+# --- Compiled Files ---
+*.exe
+*.dll
+*.lib
+*.obj
+*.iobj
+*.ipdb
+bin/
+obj/
+
+# --- Operating System ---
+.DS_Store
+Thumbs.db
+
+# --- Secrets ---
+*.env
+*.key
+*.pem
