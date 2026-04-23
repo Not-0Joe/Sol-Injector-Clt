@@ -12,7 +12,9 @@ void changeConsoleOutPutColor(consoleColor color)
 
 	if (hConsloe == INVALID_HANDLE_VALUE)
 	{
+		changeConsoleOutPutColor(consoleColor::Red);
 		std::cerr << "ERROR: getStdHandle returned invalid handle exiting";
+		changeConsoleOutPutColor(consoleColor::White);
 		// todo: add writing error to log file logic here
 	}
 

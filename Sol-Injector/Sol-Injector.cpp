@@ -3,6 +3,8 @@
 // Basic process injector made by sol this is a free and open source injector, if you use and complie the project
 // please leave feed back on improvments that could be made if you have any 
 
+// project source and header files will contain lots of comments as i am still leaning both c++ and the windows api
+
 #include <iostream>
 #include <Windows.h>
 #include <tlhelp32.h>
@@ -75,7 +77,7 @@ int main()
 
         if (targetFound == true)
         {
-            // go to injection option
+            // go to injection options class
         }
 
     }
