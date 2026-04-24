@@ -15,8 +15,14 @@
 // Process manangment header
 #include "ProcessManager.h"
 
+// injecton class
+#include "InjectorClass.h"
+
 int main()
 { 
+    Utils::admincheck();
+
+
     // Set up varibles
     int targetPID{ 0 };
     std::string targetName{ "Null" };
@@ -53,6 +59,9 @@ int main()
                   {
                   case ConsoleUI::RequestedMethod::LoadLibraryMethod:
                   {
+                      InjectorClass injector{};
+					  const std::wstring dllPath = injector.getDLLPath();
+
                       // use injection class logic
                   }
                    }

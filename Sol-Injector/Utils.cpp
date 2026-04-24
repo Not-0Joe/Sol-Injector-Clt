@@ -65,3 +65,10 @@ void Utils::waitForKey()
 	// this avoids the newline issue i was having with std::cin.get();
 	_getch();
 }
+
+bool Utils::admincheck()
+{
+	// check if the program is running with admin privileges, required for injection
+
+	return true;
+}

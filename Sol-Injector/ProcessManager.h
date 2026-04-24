@@ -34,5 +34,6 @@ namespace ProcessManager
 	HANDLE getSnapShotHandle();
 	PROCESSENTRY32 getProcessEntry();
 
+
 	
 }

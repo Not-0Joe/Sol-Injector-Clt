@@ -141,12 +141,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ConsoleUI.cpp" />
+    <ClCompile Include="InjectorClass.cpp" />
     <ClCompile Include="ProcessManager.cpp" />
     <ClCompile Include="Sol-Injector.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConsoleUI.h" />
+    <ClInclude Include="InjectorClass.h" />
     <ClInclude Include="ProcessManager.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>

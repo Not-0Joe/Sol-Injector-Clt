@@ -21,4 +21,5 @@ namespace Utils
 	void clearInputBuffer();
 	void copyToClipboard(const std::string& text);
 	void waitForKey();
+	bool admincheck();
 }
