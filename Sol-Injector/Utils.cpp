@@ -1,7 +1,9 @@
-#include "copyToClipboard.h"
+// function logic for utils functions
 
-// const string refrence to the string we want to copy
-void copyToClipboard(const std::string& text)
+#include "Utils.h"
+#include <limits>
+
+void Utils::copyToClipboard(const std::string& text)
 {
 
 	// open and stop other programs from using the clipboard and error check
@@ -46,4 +48,14 @@ void copyToClipboard(const std::string& text)
 	// clean up after use
 	CloseClipboard();
 
+}
+
+void Utils::clearInputBuffer()
+{
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
+void Utils::waitForKey()
+{
+	std::cin.get();
 }

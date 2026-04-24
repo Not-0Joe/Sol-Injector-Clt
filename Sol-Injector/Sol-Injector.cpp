@@ -5,27 +5,15 @@
 
 // project source and header files will contain lots of comments as i am still leaning both c++ and the windows api
 
-#include <iostream>
-#include <Windows.h>
-#include <tlhelp32.h>
-#include <tchar.h>
-#include <stdio.h>
-#include <io.h>
-#include <fcntl.h>
 
+// utils header 
+#include "Utils.h"
 
-#include "printUI.h"
-#include "changeConsoleTextColor.h"
-#include "consoleColorEnums.h"
-#include "getUserChoice.h"
-#include "userChoiceEnum.h"
-#include "getAndPrintProcessList.h"
-#include "copyToClipboard.h"
-#include "getUserTargetPID.h"
-#include "findTargetProcessWithPID.h"
-#include "injectionMenu.h"
-#include "requestedMethodEnum.h"
-#include "getInjectionMethod.h"
+// UI Interface header
+#include "ConsoleUI.h"
+
+// Process manangment header
+#include "ProcessManager.h"
 
 int main()
 {
@@ -36,7 +24,7 @@ int main()
     
     // Print the UI
     
-    printUI();
+    ConsoleUI::printUI();
 
 
     // USER CHOICE LOGIC
@@ -44,59 +32,66 @@ int main()
     bool backToMenu = true;
     while (backToMenu == true)
     {
-         UserChoice userChoice = getUserChoice();
+         ProcessManager::UserChoice userChoice = ProcessManager::getUserChoice();
 
-          if (userChoice == UserChoice::PID)
+          if (userChoice == ProcessManager::UserChoice::PID)
           {
-              const DWORD PID = getUserPID();
+              const DWORD PID = ProcessManager::getUserPID();
 
               bool targetFound = false;
-              targetFound = FindTargetProcessWithPID(PID);
+              targetFound = ProcessManager::FindTargetProcessWithPID(PID);
 
               if (targetFound == true)
               {
                   backToMenu = false;
                   // clear screen print injection options
-                  printInjectionMenU();
+                  ConsoleUI::printInjectionMenU();
                   
                   // returns and enum to be used with the injection class
                   // the injection class will hold all of the injection methods
                   // used the enum here to avoid magic numbers 
-                   RequestedMethod injectionMethod = getInjectionMethod();
+                  ConsoleUI::RequestedMethod injectionMethod = ConsoleUI::getInjectionMethod();
 
-                  // go to injection options class
+                  switch (injectionMethod)
+                  {
+                  case ConsoleUI::RequestedMethod::LoadLibraryMethod:
+                  {
+                      // use injection class logic
+                  }
+                  }
+
               }
               else
               {
-                  printUI();
+                  ConsoleUI::printUI();
               }
 
 
 
           }
-          else if (userChoice == UserChoice::NAME)
+          else if (userChoice == ProcessManager::UserChoice::NAME)
           {
               // Find Process by name
           }
-          if (userChoice == UserChoice::LIST)
+          else if (userChoice == ProcessManager::UserChoice::LIST)
           {
-              getAndPrintProcesslist();
-              printUI();
+              ConsoleUI::getAndPrintProcesslist();
+              ConsoleUI::printUI();
           }
-          else if (userChoice == UserChoice::DISCORD)
+          else if (userChoice == ProcessManager::UserChoice::DISCORD)
           {
               const std::string discordLink = "https://discord.gg/yCEmcGeq3a";
-              copyToClipboard(discordLink);
-              changeConsoleOutPutColor(consoleColor::BrightCyan);
+              Utils::copyToClipboard(discordLink);
+              ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::BrightCyan);
               std::cout << discordLink << " copied to clipboard...\n";
-              changeConsoleOutPutColor(consoleColor::White);
+              ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::White);
               
-              std::cin.ignore(99999999, '\n');
-              std::cin.get();
+              // clear buffer should really just make this into a function to reduce redudant code
+              Utils::waitForKey();
+              Utils::clearInputBuffer();
               // clear screen and reprint ui
               system("CLS");
-              printUI();
-
+              ConsoleUI::printUI();
           }
 
     }
