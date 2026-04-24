@@ -2,6 +2,7 @@
 
 #include "Utils.h"
 #include <limits>
+#include <conio.h>
 
 void Utils::copyToClipboard(const std::string& text)
 {
@@ -52,10 +53,15 @@ void Utils::copyToClipboard(const std::string& text)
 
 void Utils::clearInputBuffer()
 {
+	if (!std::cin)
+	{
+		std::cin.clear();
+	}
 	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
 void Utils::waitForKey()
 {
-	std::cin.get();
+	// this avoids the newline issue i was having with std::cin.get();
+	_getch();
 }

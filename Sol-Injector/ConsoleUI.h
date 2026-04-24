@@ -33,7 +33,7 @@ namespace ConsoleUI
 
 	void printUI();
 	void changeConsoleOutPutColor(consoleColor color);
-    RequestedMethod getInjectionMethod();
+    RequestedMethod getUserInjectionChoice();
     void getAndPrintProcesslist();
     void printInjectionMenU();
 

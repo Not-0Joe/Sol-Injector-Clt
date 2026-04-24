@@ -29,4 +29,10 @@ namespace ProcessManager
 	int getUserPID();
 	bool FindTargetProcessWithPID(const DWORD PID);
 	RequestedMethod getInjectionMethod();
+	std::wstring getUserProcessName();
+	bool FindTargetProcessWithName(const std::wstring& name);
+	HANDLE getSnapShotHandle();
+	PROCESSENTRY32 getProcessEntry();
+
+	
 }

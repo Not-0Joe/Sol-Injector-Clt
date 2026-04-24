@@ -84,7 +84,7 @@ void printInjectionMenU()
 
 }
 
-ConsoleUI::RequestedMethod ConsoleUI::getInjectionMethod()
+ConsoleUI::RequestedMethod ConsoleUI::getUserInjectionChoice()
 {
     int userChoice{ 0 };
     std::cin >> userChoice;
@@ -187,11 +187,13 @@ void ConsoleUI::getAndPrintProcesslist()
 
     } while (Process32Next(hProcessList, &pe32));
     std::cout << "========================================\n";
+    
     ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::Green);
     std::cout << "Process list done printing\nPress any key to contuine:";
     ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::White);
 
-    // clear buffer and wait for user to press a key
+    // wait for keybeore clearing screen
+    Utils::clearInputBuffer();
     Utils::waitForKey();
     // clear screen
     system("CLS");

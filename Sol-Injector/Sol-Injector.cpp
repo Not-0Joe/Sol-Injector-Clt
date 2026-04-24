@@ -16,19 +16,17 @@
 #include "ProcessManager.h"
 
 int main()
-{
+{ 
     // Set up varibles
     int targetPID{ 0 };
     std::string targetName{ "Null" };
     int menuOption{ 0 };
+    bool targetFound = false;
     
     // Print the UI
-    
     ConsoleUI::printUI();
-
-
-    // USER CHOICE LOGIC
     
+    // USER CHOICE LOGIC
     bool backToMenu = true;
     while (backToMenu == true)
     {
@@ -38,7 +36,6 @@ int main()
           {
               const DWORD PID = ProcessManager::getUserPID();
 
-              bool targetFound = false;
               targetFound = ProcessManager::FindTargetProcessWithPID(PID);
 
               if (targetFound == true)
@@ -50,7 +47,7 @@ int main()
                   // returns and enum to be used with the injection class
                   // the injection class will hold all of the injection methods
                   // used the enum here to avoid magic numbers 
-                  ConsoleUI::RequestedMethod injectionMethod = ConsoleUI::getInjectionMethod();
+                  ConsoleUI::RequestedMethod injectionMethod = ConsoleUI::getUserInjectionChoice();
 
                   switch (injectionMethod)
                   {
@@ -58,9 +55,9 @@ int main()
                   {
                       // use injection class logic
                   }
-                  }
+                   }
 
-              }
+               }
               else
               {
                   ConsoleUI::printUI();
@@ -72,29 +69,56 @@ int main()
           else if (userChoice == ProcessManager::UserChoice::NAME)
           {
               // Find Process by name
-          }
-          else if (userChoice == ProcessManager::UserChoice::LIST)
-          {
+
+              const std::wstring name = ProcessManager::getUserProcessName();
+
+              targetFound = ProcessManager::FindTargetProcessWithName(name);
+
+              if (targetFound == true)
+              {
+                  backToMenu = false;
+                  // clear screen print injection options
+                  ConsoleUI::printInjectionMenU();
+
+                  // returns and enum to be used with the injection class
+                  // the injection class will hold all of the injection methods
+                  // used the enum here to avoid magic numbers 
+                  ConsoleUI::RequestedMethod injectionMethod = ConsoleUI::getUserInjectionChoice();
+
+                  switch (injectionMethod)
+                  {
+                  case ConsoleUI::RequestedMethod::LoadLibraryMethod:
+                  {
+                      // use injection class logic
+                  }
+                  }
+
+               }
+              else
+              {
+                  ConsoleUI::printUI();
+              }
+           }
+           else if (userChoice == ProcessManager::UserChoice::LIST)
+           {
               ConsoleUI::getAndPrintProcesslist();
               ConsoleUI::printUI();
-          }
-          else if (userChoice == ProcessManager::UserChoice::DISCORD)
-          {
+           }
+           else if (userChoice == ProcessManager::UserChoice::DISCORD)
+           {
               const std::string discordLink = "https://discord.gg/yCEmcGeq3a";
               Utils::copyToClipboard(discordLink);
               ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::BrightCyan);
               std::cout << discordLink << " copied to clipboard...\n";
               ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::White);
               
-              // clear buffer should really just make this into a function to reduce redudant code
               Utils::waitForKey();
               Utils::clearInputBuffer();
               // clear screen and reprint ui
               system("CLS");
               ConsoleUI::printUI();
-          }
+            }
 
     }
-
 
 }
