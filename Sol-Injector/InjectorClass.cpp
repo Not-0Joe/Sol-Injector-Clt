@@ -60,4 +60,4 @@ std::wstring InjectorClass::getDLLPath()
     
 }
 
-    
+// used alot of ai for the last few lines i am kinda ashamed will finnish write on on last bit and make sure i understand

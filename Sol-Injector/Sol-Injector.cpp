@@ -62,7 +62,8 @@ int main()
                       InjectorClass injector{};
 					  const std::wstring dllPath = injector.getDLLPath();
 
-                      // use injection class logic
+                       // do injection
+
                   }
                    }
 
