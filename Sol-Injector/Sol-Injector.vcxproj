@@ -132,7 +132,8 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
+      <UseDynamicDebugging>false</UseDynamicDebugging>
     </Link>
     <Manifest>
       <EnableSegmentHeap>true</EnableSegmentHeap>

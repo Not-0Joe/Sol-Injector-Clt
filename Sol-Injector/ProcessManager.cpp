@@ -102,7 +102,7 @@ int ProcessManager::getUserPID()
 
 std::wstring ProcessManager::getUserProcessName()
 {
-	std::wstring name;
+	std::wstring name{};
 	ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::Green);
 	std::cout << "Enter target process name (ex. notepad.exe):";
 	ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::White);
