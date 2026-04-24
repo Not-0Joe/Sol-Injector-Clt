@@ -2,5 +2,4 @@
 
 #include <iostream>
 
-
 void waitForKey();

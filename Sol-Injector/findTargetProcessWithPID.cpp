@@ -91,6 +91,7 @@ bool FindTargetProcessWithPID(const DWORD PID)
 		
 		// wait for key and return to menu
 		waitForKey();
+		system("CLS");
 
 	}
 	// clean up handle

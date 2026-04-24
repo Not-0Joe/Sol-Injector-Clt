@@ -143,8 +143,11 @@
     <ClCompile Include="copyToClipboard.cpp" />
     <ClCompile Include="findTargetProcessWithPID.cpp" />
     <ClCompile Include="getAndPrintProcessList.cpp" />
+    <ClCompile Include="getInjectionMethod.cpp" />
     <ClCompile Include="getUserChoice.cpp" />
     <ClCompile Include="getUserTargetPID.cpp" />
+    <ClCompile Include="injectionMenu.cpp" />
+    <ClCompile Include="printUI.cpp" />
     <ClCompile Include="Sol-Injector.cpp" />
     <ClCompile Include="waitForKey.cpp" />
   </ItemGroup>
@@ -154,9 +157,12 @@
     <ClInclude Include="copyToClipboard.h" />
     <ClInclude Include="findTargetProcessWithPID.h" />
     <ClInclude Include="getAndPrintProcessList.h" />
+    <ClInclude Include="getInjectionMethod.h" />
     <ClInclude Include="getUserChoice.h" />
     <ClInclude Include="getUserTargetPID.h" />
-    <ClInclude Include="injectionMethods.h" />
+    <ClInclude Include="injectionMenu.h" />
+    <ClInclude Include="printUI.h" />
+    <ClInclude Include="requestedMethodEnum.h" />
     <ClInclude Include="userChoiceEnum.h" />
     <ClInclude Include="waitForKey.h" />
   </ItemGroup>

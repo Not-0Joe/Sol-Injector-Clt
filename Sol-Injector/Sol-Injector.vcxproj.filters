@@ -39,6 +39,15 @@
     <ClCompile Include="waitForKey.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="printUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="injectionMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="getInjectionMethod.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="changeConsoleTextColor.h">
@@ -68,7 +77,16 @@
     <ClInclude Include="waitForKey.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="injectionMethods.h">
+    <ClInclude Include="printUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="injectionMenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="requestedMethodEnum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="getInjectionMethod.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -5,4 +5,4 @@
 #include <TlHelp32.h>
 #include <vector>
 
-bool FindTargetProcessWithPID(const int PID);
+bool FindTargetProcessWithPID(const DWORD PID);
