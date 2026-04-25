@@ -34,6 +34,7 @@ int main()
         Utils::waitForKey();
 
         Utils::reluchWithAdminPrivileges();
+        exit(1);
       
     }
     
@@ -56,6 +57,8 @@ int main()
           {
               const DWORD PID = ProcessManager::getUserPID();
 
+              targetPID = PID;
+
               targetFound = ProcessManager::FindTargetProcessWithPID(PID);
 
               if (targetFound == true)
@@ -76,7 +79,7 @@ int main()
                       InjectorClass injector{};
 					  const std::wstring dllPath = injector.getDLLPath();
 
-                       // do injection
+                      injector.loadLibraryInjection(targetPID, dllPath);
                         
                   }
                    }
@@ -98,6 +101,10 @@ int main()
 
               targetFound = ProcessManager::FindTargetProcessWithName(name);
 
+              // get the pid of the process 
+
+			  targetPID = ProcessManager::getPIDFromName(name);
+
               if (targetFound == true)
               {
                   backToMenu = false;
@@ -116,6 +123,7 @@ int main()
                       InjectorClass injector{};
                       const std::wstring dllPath = injector.getDLLPath();
 
+					  injector.loadLibraryInjection(targetPID, dllPath);
 
                   }
                   }

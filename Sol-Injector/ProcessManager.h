@@ -33,6 +33,7 @@ namespace ProcessManager
 	bool FindTargetProcessWithName(const std::wstring& name);
 	HANDLE getSnapShotHandle();
 	PROCESSENTRY32 getProcessEntry();
+	int getPIDFromName(const std::wstring& processName);
 
 
 	

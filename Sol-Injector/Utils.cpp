@@ -123,6 +123,6 @@ void Utils::reluchWithAdminPrivileges()
 
 	if (!ShellExecuteExA(&sei))
 	{
-		std::cerr << "ERROR: ShellExecuteExA failed to relaunch with admin privileges\n";
+		std::cerr << "\nERROR: ShellExecuteExA failed to relaunch with admin privileges\n";
 	}
 }

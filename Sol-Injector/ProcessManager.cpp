@@ -81,8 +81,8 @@ int ProcessManager::getUserPID()
 
 	while (true)
 	{
-		std::cin >> PID;
 
+		std::cin >> PID;
 		if (std::cin)
 		{
 			return PID;
@@ -290,4 +290,19 @@ PROCESSENTRY32 ProcessManager::getProcessEntry()
 	return pe32;
 }
 
+int ProcessManager::getPIDFromName(const std::wstring& processName)
+{
+	HANDLE hProcessList = getSnapShotHandle();
+	PROCESSENTRY32 pe32 = getProcessEntry();
 
+	do
+	{
+		if (processName == pe32.szExeFile)
+		{
+			return pe32.th32ProcessID;
+		}
+
+	} while (Process32Next(hProcessList, &pe32));
+
+
+}
