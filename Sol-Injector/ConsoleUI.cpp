@@ -59,28 +59,8 @@ void ConsoleUI::printUI()
     std::cout << "\nThanks for using Sol Injector!, Options Below If you paid for this you got scammed\n";
 
     ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::Green);
-    std::cout << "[0] Select Process wth PID | [1] Select Process with name | [2] List all running processes | [3] Discord Link\n:";
+    std::cout << "[0] Select Process wth PID\n[1] Select Process with name\n[2] List all running processes\n[3] Discord Link\n:";
     ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::White);
-
-}
-
-void printInjectionMenU()
-{
-    std::string injectionMenuArt{ R"(        
-	|_______________________           
-|_______|  |  |  |  |  |  |  |  |__        
-|_______|  6  5  4  3  3  2  1  |__|-------  
-|       |_______________________|          
-	|                                  )" };
-
-
-    ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::Red);
-    std::cout << injectionMenuArt << "\n";
-    ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::Green);
-
-    std::cout << "Please pick an injection method\n";
-    std::cout << "=====================================================================\n";
-    std::cout << "[0] LoadLibrary via CreateRemoteThead\n[1] More options soon...\n";
 
 }
 

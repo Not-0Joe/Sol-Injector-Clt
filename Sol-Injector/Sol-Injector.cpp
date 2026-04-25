@@ -99,7 +99,10 @@ int main()
                   {
                   case ConsoleUI::RequestedMethod::LoadLibraryMethod:
                   {
-                      // use injection class logic
+                      InjectorClass injector{};
+                      const std::wstring dllPath = injector.getDLLPath();
+
+
                   }
                   }
 

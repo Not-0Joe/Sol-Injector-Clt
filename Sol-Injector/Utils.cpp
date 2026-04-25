@@ -68,7 +68,7 @@ void Utils::waitForKey()
 
 bool Utils::admincheck()
 {
-	// check if the program is running with admin privileges, required for injection
+	// check if the program is running with admin privileges, required for injection if not relunch as admin
 
 	return true;
 }
