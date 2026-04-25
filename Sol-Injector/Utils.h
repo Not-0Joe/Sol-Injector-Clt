@@ -22,4 +22,5 @@ namespace Utils
 	void copyToClipboard(const std::string& text);
 	void waitForKey();
 	bool admincheck();
+	void reluchWithAdminPrivileges();
 }

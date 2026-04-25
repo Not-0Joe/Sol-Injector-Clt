@@ -70,37 +70,59 @@ bool Utils::admincheck()
 {
 	// varible we will hand back to caller as yes or no
 	bool elevated = false;
-	
 	// empty handle used to store the token handle we will get from the process
 	HANDLE token = NULL;
-	
-	// OpenProcessToken opens the token of the current process 
+
+	// OpenProcessToken opens a handle to the token of the current process 
 	// OpenProcessToken syntax: OpenProcessToken(HANDLE ProcessHandle, DWORD DesiredAccess, PHANDLE TokenHandle);
-	// meaning handle to the process we want the token of, the access rights we want, and the varialbe we are writing the handle to
-	// OpenProcessToken returns true if it se
-
-	// GetCurrentProcess gets a psudo handle to the current Process, a psudo handle is a handle to the current process
-	// We want TOKEN_QUERY access to the token so we can query it for elevation information, and we pass the address
-	// &token so the function can write the handle to our variable if it succeeds
-
-
+	// GetCurrentProcess() returns a pseudo handle to the current process,
 	if (OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &token))
 	{
+		// structure used to store the elevation information we will get from the token
 		TOKEN_ELEVATION elevation;
+		// setting the size of the structure for the API call, this is a required step for Windows
 		DWORD size = sizeof(TOKEN_ELEVATION);
+		// GetTokenInformation retrieves a specified type of information about an access token
+		// it takes the handle to the token its checking, what type of information we want to get
+		// &elevation is the address of the structure we want to fill with the information
+		// the lenght of the structure its size in bytes 
+		// &size it writes how much data it actually wrote to the structure, this is used for error checking and to make sure we got all the information we expected
 		if (GetTokenInformation(token, TokenElevation, &elevation, sizeof(elevation), &size))
 		{
+			// we save the result of the check into the elevated variable to return to the caller, this will be true if the token is elevated and false if it is not
 			elevated = elevation.TokenIsElevated;
 		}
 
+		// if token returns a valid handle we close the handle then reutrn the result
 		if (token) CloseHandle(token);
 		return elevated;
 	}
 	else
 	{
+		// log to error file or use error logging lib maybe?
+
 		std::cerr << "ERROR: OpenProcessToken failed\n";
 		return false;
 
 	}
-	
+
+}
+
+
+void Utils::reluchWithAdminPrivileges()
+{
+	char szPath[MAX_PATH];
+	GetModuleFileNameA(NULL, szPath, MAX_PATH);
+
+	// This is the structure we will pass to ShellExecuteExA
+	SHELLEXECUTEINFOA sei{ sizeof(sei) };
+	sei.lpVerb = "runas"; // this tells windows to run the program with admin privileges
+	sei.lpFile = szPath; // this is the path to our executable
+	sei.hwnd = NULL; // this is the handle to the parent window, we don't have one so we set it to NULL
+	sei.nShow = SW_NORMAL; // this tells windows how to show the new process, we want it to be normal so we set it to SW_NORMAL
+
+	if (!ShellExecuteExA(&sei))
+	{
+		std::cerr << "ERROR: ShellExecuteExA failed to relaunch with admin privileges\n";
+	}
 }

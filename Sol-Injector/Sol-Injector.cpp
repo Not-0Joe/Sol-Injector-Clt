@@ -29,10 +29,12 @@ int main()
         // recode to have this notify the user to run as admin then exit and self reluch with admin privleges
 
         ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::Red);
-        std::cerr << "ERROR: Injector is not running with admin privileges, please run as admin and try again\nExiting ...";
+        std::cerr << "ERROR: Injector is not running with admin privileges, Reluching with admin privileges...\nExiting ...";
         ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::White);
         Utils::waitForKey();
-        return 1;
+
+        Utils::reluchWithAdminPrivileges();
+      
     }
     
     // Set up varibles
@@ -75,7 +77,7 @@ int main()
 					  const std::wstring dllPath = injector.getDLLPath();
 
                        // do injection
-
+                        
                   }
                    }
 
