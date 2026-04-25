@@ -20,9 +20,21 @@
 
 int main()
 { 
-    Utils::admincheck();
 
+    bool isAdmin = Utils::admincheck();
 
+    if (isAdmin == false)
+    {
+
+        // recode to have this notify the user to run as admin then exit and self reluch with admin privleges
+
+        ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::Red);
+        std::cerr << "ERROR: Injector is not running with admin privileges, please run as admin and try again\nExiting ...";
+        ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::White);
+        Utils::waitForKey();
+        return 1;
+    }
+    
     // Set up varibles
     int targetPID{ 0 };
     std::string targetName{ "Null" };

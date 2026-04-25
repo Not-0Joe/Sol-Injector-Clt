@@ -135,7 +135,6 @@ void ConsoleUI::getAndPrintProcesslist()
     if (hProcessList == INVALID_HANDLE_VALUE)
     {
         std::cerr << "ERROR: CreateToolhelp32Snapshot returning invalid handle\n";
-        CloseHandle(hProcessList);
         return;
         // write error to log file
     }

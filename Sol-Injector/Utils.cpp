@@ -63,12 +63,44 @@ void Utils::clearInputBuffer()
 void Utils::waitForKey()
 {
 	// this avoids the newline issue i was having with std::cin.get();
-	_getch();
+	 _getch();
 }
 
 bool Utils::admincheck()
 {
-	// check if the program is running with admin privileges, required for injection if not relunch as admin
+	// varible we will hand back to caller as yes or no
+	bool elevated = false;
+	
+	// empty handle used to store the token handle we will get from the process
+	HANDLE token = NULL;
+	
+	// OpenProcessToken opens the token of the current process 
+	// OpenProcessToken syntax: OpenProcessToken(HANDLE ProcessHandle, DWORD DesiredAccess, PHANDLE TokenHandle);
+	// meaning handle to the process we want the token of, the access rights we want, and the varialbe we are writing the handle to
+	// OpenProcessToken returns true if it se
 
-	return true;
+	// GetCurrentProcess gets a psudo handle to the current Process, a psudo handle is a handle to the current process
+	// We want TOKEN_QUERY access to the token so we can query it for elevation information, and we pass the address
+	// &token so the function can write the handle to our variable if it succeeds
+
+
+	if (OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &token))
+	{
+		TOKEN_ELEVATION elevation;
+		DWORD size = sizeof(TOKEN_ELEVATION);
+		if (GetTokenInformation(token, TokenElevation, &elevation, sizeof(elevation), &size))
+		{
+			elevated = elevation.TokenIsElevated;
+		}
+
+		if (token) CloseHandle(token);
+		return elevated;
+	}
+	else
+	{
+		std::cerr << "ERROR: OpenProcessToken failed\n";
+		return false;
+
+	}
+	
 }
