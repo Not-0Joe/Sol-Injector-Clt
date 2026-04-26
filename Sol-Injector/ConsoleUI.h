@@ -24,7 +24,8 @@ namespace ConsoleUI
         BrightYellow = 14,
         BrightWhite = 15
     };
-
+    
+    // will contain all the injection options users can pick from
     enum class RequestedMethod
     {
         LoadLibraryMethod,

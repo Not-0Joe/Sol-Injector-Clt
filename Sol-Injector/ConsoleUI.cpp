@@ -4,12 +4,10 @@
 
 void ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor color)
 {
-    // our handle to the std output so we can access
-    // and change the color of the output text
+    // Handle to the standard output used for color changing
     HANDLE hConsloe = GetStdHandle(STD_OUTPUT_HANDLE);
 
     // Validate HANDLE
-
     if (hConsloe == INVALID_HANDLE_VALUE)
     {
         ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::Red);
@@ -18,7 +16,7 @@ void ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor color)
         // todo: add writing error to log file logic here
     }
 
-    // API Function uses the handle to the console and sets the text attribute
+    // SetConsole takes our handle and the color value we want to change to 
     // we static cast the class enum to avoid error, tells compiler "yes i know u want a WORD type"
     SetConsoleTextAttribute(hConsloe, static_cast<WORD>(color));
 
@@ -77,20 +75,15 @@ ConsoleUI::RequestedMethod ConsoleUI::getUserInjectionChoice()
         std::cerr << "ERROR: invalid option try again\n:";
         ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::White);
     }
-    else if (userChoice < 0 || userChoice > 10)
+    else if (userChoice < 0 || userChoice > 2)
     {
-        // if userChoice is outside of options
-        // 10 is just going to be a place holder for now
-
         Utils::clearInputBuffer();
         ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::Red);
         std::cerr << "ERROR: invalid option try again\n";
         ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::White);
         std::cout << ":";
     }
-
-    // if both checks are passed
-
+    // if both checks are passed we contuine 
     // convert userchoice into the enum to be passed back to main
     switch (static_cast<ConsoleUI::RequestedMethod>(userChoice))
     {
@@ -101,6 +94,7 @@ ConsoleUI::RequestedMethod ConsoleUI::getUserInjectionChoice()
     }
     default:
     {
+		std::cerr << "ERROR: invalid option try again\n:";
         break;
     }
     }
@@ -145,7 +139,7 @@ void ConsoleUI::getAndPrintProcesslist()
     pe32.dwSize = sizeof(PROCESSENTRY32);
 
     // we are both validating and putting info into pe32 here
-    // ex. got to list grab first entry paste into pe32 return bool, if there is a next entry
+    // ex. go to list grab first entry paste into pe32 return bool, if there is a next entry
     if (!Process32First(hProcessList, &pe32))
     {
         std::cerr << "ERROR: Process32First returned bad value for pe32\n";
@@ -157,22 +151,20 @@ void ConsoleUI::getAndPrintProcesslist()
     std::cout << "Listing all processes PID and names.....\n";
     ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::White);
 
-    // print out process list
+    // while there is a next process in the list print the name and pid to the UI
     do
     {
-        std::cout << "========================================\n";
+        std::cout << "============================================\n";
         std::wcout << "PROCESS NAME:" << pe32.szExeFile << "\n";
         std::wcout << "PID:" << pe32.th32ProcessID << "\n";
+        std::cout << "============================================\n";
 
     } while (Process32Next(hProcessList, &pe32));
-    std::cout << "========================================\n";
     
     ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::Green);
     std::cout << "Process list done printing\nPress any key to contuine:";
     ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::White);
-
-    // wait for keybeore clearing screen
-    Utils::clearInputBuffer();
+    
     Utils::waitForKey();
     // clear screen
     system("CLS");

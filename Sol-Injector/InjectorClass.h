@@ -1,7 +1,5 @@
 #pragma once
 
-// class used to hold all the injection methods and logic for the injector.
-
 #include "Utils.h"
 
 class InjectorClass

@@ -9,16 +9,21 @@ void InjectorClass::loadLibraryInjection(const DWORD PID, const std::wstring& dl
    
     HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, PID);
 
-	std::cout << "Attempting to open handle to process with PID: " << PID << "...\n";
+	ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::Red);
+	std::cout << "==============================================================\n";
+	std::cout << "warring this injection method is the most basic and most likely\nto be detected by anti-cheat software\nTo Proceed with injection, press any key...\n";
+    std::cout << "===============================================================\n";
+	Utils::waitForKey();
+    ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::Red);
+    
+    std::cout << "Attempting to open handle to process with PID: " << PID << "...\n";
 
     // check if the handle is valid
-    if (!hProcess)
+    if (hProcess == NULL)
     {
         ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::Red);
         std::cerr << "ERROR: OpenProcess returned invalid handle\nExiting ...";
         ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::White);
-        Utils::waitForKey();
-        exit(1);
     }
     else
     {
@@ -31,23 +36,22 @@ void InjectorClass::loadLibraryInjection(const DWORD PID, const std::wstring& dl
     // LPVOID is a pointer to any type
     // we pass in the handle to the target process
     // Null meaing we don't care where the memory is allocated and let windows decide
-    // size of the string 
+	// Path size is the size of the memory we want to allocate, we make it equal to th size of the dll path in bytes 
     // and we allocate the same size as the string plus 1 for the null terminator, this is important to avoid a buffer overflow
     // MEM_COMMIT tells windows to commit the memory, this means that the memory will be allocated and initialized to zero, this is important to avoid any issues with uninitialized memory
-    // PAGE_READWRITE tells windows we want to be able to read and write to the memory, this is important because we will be writing the DLL path
+	// MEM_RESERVE tells windows to reserve the memory, this means that the memory will be reserved in the process's address space but not actually allocated until it is committed
     
-    // we need to get the size of the dll path in bytes, and since we are using a std::stringw 
+    // we need to get the size of the dll path in bytes
+	// since the dll path is a wide string we need to multiply the size of the string by the size of a wide character (wchar_t) to get the size in bytes
     SIZE_T pathSize = (dllPath.length() + 1) * sizeof(wchar_t);
     
     LPVOID pRemotePath = VirtualAllocEx(hProcess, NULL, pathSize, MEM_COMMIT, PAGE_READWRITE);
 	// check if the memory allocation was successful
-	if (!pRemotePath)
+	if (pRemotePath == NULL)
 	{
 		ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::Red);
 		std::cerr << "ERROR: VirtualAllocEx failed to allocate memory in the target process\nExiting ...";
         CloseHandle(hProcess);
-		Utils::waitForKey();
-		exit(1);
 	}
     else
     {
@@ -61,9 +65,6 @@ void InjectorClass::loadLibraryInjection(const DWORD PID, const std::wstring& dl
 	{
 		ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::Red);
 		std::cerr << "ERROR: WriteProcessMemory failed to write the DLL path to the target process\nExiting ...";
-		Utils::waitForKey();
-        CloseHandle(hProcess);
-		exit(1);
 	}
     else
     {
@@ -72,47 +73,71 @@ void InjectorClass::loadLibraryInjection(const DWORD PID, const std::wstring& dl
 		ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::White);
     }
 
-	// this gets the address of LoadLibraryA in kernel32.dll, this is important because we will be using this function to load the DLL into the target process
+	// this gets the address of LoadLibraryW in kernel32.dll, this is important because we will be using this function to load the DLL into the target process
     LPVOID pLoadLibrary = (LPVOID)GetProcAddress(GetModuleHandleA("kernel32.dll"), "LoadLibraryW");
-	// check if we got the address of LoadLibraryA
-	if (!pLoadLibrary)
+	// check if we got the address of LoadLibraryW
+	if (pLoadLibrary == NULL)
 	{
 		ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::Red);
-		std::cerr << "ERROR: GetProcAddress failed to get the address of LoadLibraryA\nExiting ...";
-		Utils::waitForKey();
-		exit(1);
+		std::cerr << "ERROR: GetProcAddress failed to get the address of LoadLibraryW\nExiting ...";
+	
 	}
 	else
     {
 		ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::Green);
-		std::cout << "Successfully got the address of LoadLibraryA\n";
+		std::cout << "Successfully got the address of LoadLibraryW\n";
 		ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::White);
 	}
 
     // 5. Start a new thread in the victim process that calls LoadLibraryA(pRemotePath)
     HANDLE hThread = CreateRemoteThread(hProcess, NULL, 0, (LPTHREAD_START_ROUTINE)pLoadLibrary, pRemotePath, 0, NULL);
     
-	if (!hThread)
+	if (hThread == NULL)
 	{
 		ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::Red);
 		std::cerr << "ERROR: CreateRemoteThread failed to create a remote thread in the target process\nExiting ...";
-		Utils::waitForKey();
-		exit(1);
 	}
     else
     {
 		ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::Green);
 		std::cout << "Successfully created a remote thread in the target process to load the DLL\n";
+		std::cout << "DLL Injection should be successful if the target process is not protected and the DLL is valid\n";
 		ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::White);
     }
 
-	Utils::waitForKey();
-   
+	// wait for the thread to finnish and check if it was successful
+
+	WaitForSingleObject(hThread, INFINITE);
+	DWORD exitCode;
+	GetExitCodeThread(hThread, &exitCode);
+
+	if (exitCode == 0)
+	{
+		ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::Red);
+		std::cerr << "ERROR: Remote thread failed to load the DLL, LoadLibraryW returned NULL\nExiting ...";
+		ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::White);
+
+	}
+	else
+	{
+		ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::Green);
+		std::cout << "DLL loaded successfully, LoadLibraryW returned a valid handle to the loaded module\n";
+		ConsoleUI::changeConsoleOutPutColor(ConsoleUI::consoleColor::White);
+
+	}
+	
+    // release the memory we allocated in the target process
+	VirtualFreeEx(hProcess, pRemotePath, 0, MEM_RELEASE);
+
     // clean up
     if (hThread) {
         CloseHandle(hThread);
         CloseHandle(hProcess);
     }
+	
+	// wait for all outputs then exit to menu
+	Utils::waitForKey();
+	exit(0);
  
 }
 
