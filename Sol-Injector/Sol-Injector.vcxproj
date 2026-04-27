@@ -140,16 +140,20 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ConsoleUI.cpp" />
-    <ClCompile Include="InjectorClass.cpp" />
+    <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="InjectionOptions.cpp" />
+    <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="ProcessManager.cpp" />
+    <ClCompile Include="UI.cpp" />
     <ClCompile Include="Sol-Injector.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ConsoleUI.h" />
-    <ClInclude Include="InjectorClass.h" />
+    <ClInclude Include="Controller.h" />
+    <ClInclude Include="InjectionOptions.h" />
+    <ClInclude Include="InputHandler.h" />
     <ClInclude Include="ProcessManager.h" />
+    <ClInclude Include="UI.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
