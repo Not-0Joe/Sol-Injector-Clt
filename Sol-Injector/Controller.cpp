@@ -50,9 +50,9 @@ void Controller::useMenuOption(InputHandler::RequestedOption option)
 				Utils::clearAndIgnoreInput();
 				Utils::waitForKey();
 				return;
-				break;
 			}
 
+			break;
 		}
 		case InputHandler::ListAllProcesses:
 		{
