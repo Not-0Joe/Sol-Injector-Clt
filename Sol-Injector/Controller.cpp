@@ -26,8 +26,17 @@ void Controller::useMenuOption(InputHandler::RequestedOption option)
 					case InputHandler::InjectionMethod::loadlibraryWithRemoteThread:
 					{
 						const std::wstring dllPath = InputHandler::getDllPath();
-						InjectionOptions::LoadLibraryWithRemoteThread(pid, dllPath);
-						UI::success("LoadLibrary Injection Done");
+						bool resultOFInjection = InjectionOptions::LoadLibraryWithRemoteThread(pid, dllPath);
+						
+						if (resultOFInjection)
+						{
+							UI::success("LoadLibrary Injection Done");
+							Utils::clearAndIgnoreInput();
+							Utils::waitForKey();
+							break;
+						}
+
+						UI::error("Injection failed");
 						Utils::clearAndIgnoreInput();
 						Utils::waitForKey();
 						break;
@@ -38,8 +47,10 @@ void Controller::useMenuOption(InputHandler::RequestedOption option)
 			else
 			{
 				UI::error("Process was not found. make sure its running and try again");
-				break;
+				Utils::clearAndIgnoreInput();
+				Utils::waitForKey();
 				return;
+				break;
 			}
 
 		}
@@ -67,5 +78,6 @@ void Controller::useMenuOption(InputHandler::RequestedOption option)
 		}
 	}
 	
+	return;
 
 }

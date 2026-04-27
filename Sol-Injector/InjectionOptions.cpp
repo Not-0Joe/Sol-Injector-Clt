@@ -3,7 +3,7 @@
 #include "Utils.h"
 #include <Windows.h>
 
-void InjectionOptions::LoadLibraryWithRemoteThread(const int PID, const std::wstring dllPath)
+bool InjectionOptions::LoadLibraryWithRemoteThread(const int PID, const std::wstring dllPath)
 {
 	// get a handle to the target process
 	HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, PID);
@@ -11,7 +11,7 @@ void InjectionOptions::LoadLibraryWithRemoteThread(const int PID, const std::wst
 	if (!hProcess)
 	{
 		UI::error("Handle to target process returned NULL");
-		return;
+		return false;
 	}
 
 	// Calculate memory size needed for the DLL path in the target process
@@ -32,7 +32,7 @@ void InjectionOptions::LoadLibraryWithRemoteThread(const int PID, const std::wst
 	{
 		UI::error("RemotePath return Null");
 		CloseHandle(hProcess);
-		return;
+		return false;
 	}
 
 	// this is not needed but we can use it to check the exact number of bytes written to the memory space
@@ -45,7 +45,7 @@ void InjectionOptions::LoadLibraryWithRemoteThread(const int PID, const std::wst
 		UI::error("WriteProcessMemory Failed and returned 0");
 		VirtualFreeEx(hProcess, remoteMemory, 0, MEM_RELEASE);
 		CloseHandle(hProcess);
-		return;
+		return false;
 	}
 
 	UI::success("Number of bytes written into target");
@@ -60,7 +60,7 @@ void InjectionOptions::LoadLibraryWithRemoteThread(const int PID, const std::wst
 	{
 		UI::error("GetProcAddress failed and returnd NULL");
 		CloseHandle(hProcess);
-		return;
+		return false;
 	}
 
 	// CreateRemoteThread and have it run loadlibrary
@@ -77,7 +77,7 @@ void InjectionOptions::LoadLibraryWithRemoteThread(const int PID, const std::wst
 	{
 		UI::error("CreateRemoteThread failed and returned NULL");
 		CloseHandle(hProcess);
-		return;
+		return false;
 	}
 
 	// wait for thread to complete and store its exit code
@@ -93,10 +93,9 @@ void InjectionOptions::LoadLibraryWithRemoteThread(const int PID, const std::wst
 	}
 	
 	Utils::clearAndIgnoreInput();
-	Utils::waitForKey();
 	CloseHandle(hProcess);
 	CloseHandle(hThread);
 	VirtualFreeEx(hProcess, remoteMemory, 0, MEM_RELEASE);
-	return; 
+	return true;
 
 }

@@ -1,5 +1,7 @@
 #include "ProcessManager.h"
 #include "UI.h"
+#include "Utils.h"
+
 #include <tlhelp32.h>
 #include <vector>
 #include <string>
@@ -31,11 +33,13 @@ bool ProcessManager::checkProcessListForTarget(const int PID)
 		if (pe32.th32ProcessID == PID)
 		{
 			UI::success("Process was found!");
+			
 			CloseHandle(hProcessList);
 			return true;
 		}
 
 	} while (Process32Next(hProcessList, &pe32));
+
 
 	CloseHandle(hProcessList);
 	return false;

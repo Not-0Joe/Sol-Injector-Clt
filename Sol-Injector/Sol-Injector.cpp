@@ -10,13 +10,11 @@
 
 int main()
 {
-
 	while (true)
 	{
 		UI::printMainMenu();
 		InputHandler::RequestedOption userChoice = InputHandler::getMainMenuOption();
-		Controller::useMenuOption(userChoice);
+		Controller::useMenuOption(userChoice);	
 	}
 	
-
 }
