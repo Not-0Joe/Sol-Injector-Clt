@@ -1,26 +1,21 @@
 # Sol-Injector
 
+# [NOT BEING WORKED ON] 
+
+## This project was a learning milestone to explore the Windows API and low-level programming the code remains messy despite refactoring, but it is shared as guide for other learners—use it however you like, but expect bugs. the core injection logic is functional but the error handling could be improved and the whole project could be made alot more modular and less redundant
+
 Sol-Injector is a lightweight Windows command-line tool with a basic UI designed for listing active system processes and performing DLL injection.
 
 ## Getting Started
 
 You can get Sol-Injector running on your machine by either downloading the latest pre-compiled binary or by building the source code yourself.
 
-To use Sol-Injector, choose an option from the main menu to select a target process:
+To use Sol-Injector, choose an option from the main menu to select a target process: 
+Then select the injection option and choose ur target dll
 
-* **0**: Find target process via PID.
-* **1**: Find target process via Name.
+* **1**: Find target process via PID.
 * **2**: List all running process names and PIDs.
 * **3**: Copy the community Discord link to the clipboard.
-
-### Main Menu:
-<img width="1100" height="578" alt="Screenshot 2026-04-24 101511" src="https://github.com/user-attachments/assets/c77d6d7e-b12b-4a0d-9b63-15b90de5707f" />
-
-Once you have selected a target process, choose one of the available injection methods:
-
-<img width="766" height="278" alt="Injection Methods Screenshot" src="https://github.com/user-attachments/assets/0b77a676-e861-4e7f-b7ce-8f6deb062401" />
-
-After selecting an injection method, provide the path to the Dynamic Link Library (DLL) you wish to use, and it will be injected into the target process.
 
 ## Prerequisites
 
