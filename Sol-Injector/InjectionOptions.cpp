@@ -71,6 +71,9 @@ bool InjectionOptions::LoadLibraryWithRemoteThread(const int PID, const std::wst
 	// 5 Parameter for the function (The DLL path address)
 	// 6 Creation flags (0 = start immediately)
 	// 7 Output variable for thread ID (nullptr = not needed)
+
+	// 8 (LPTHREAD_START_ROUTINE)loadlibAddr is casting it using C-sytle casting
+
 	HANDLE hThread = CreateRemoteThread(hProcess, nullptr, 0, (LPTHREAD_START_ROUTINE)loadlibAddr, remoteMemory, 0, nullptr);
 
 	if (!hThread)
@@ -92,7 +95,6 @@ bool InjectionOptions::LoadLibraryWithRemoteThread(const int PID, const std::wst
 		UI::error("Thread provided error code");
 	}
 	
-	Utils::clearAndIgnoreInput();
 	CloseHandle(hProcess);
 	CloseHandle(hThread);
 	VirtualFreeEx(hProcess, remoteMemory, 0, MEM_RELEASE);

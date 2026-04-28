@@ -5,6 +5,7 @@ void Utils::clearAndIgnoreInput()
 {
 	std::cin.clear();
 	std::cin.ignore(9999, '\n');
+	std::cin.get();
 }
 
 void Utils::waitForKey()

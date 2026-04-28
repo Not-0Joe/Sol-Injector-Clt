@@ -4,21 +4,21 @@
 void UI::success(std::string_view message) {
     
     UI::changeOutPutColor(Color::Green);
-	std::cout << "Success: " << message << "\n:";
+	std::cout << "Success: " << message << "\n";
     UI::changeOutPutColor(Color::White);
 }
 // USED FOR ERROR MESSAGES
 void UI::error(std::string_view message) {
     
     UI::changeOutPutColor(Color::Red);
-	std::cerr << "Error: " << message << "\n:";
+	std::cerr << "Error: " << message << "\n";
     UI::changeOutPutColor(Color::White);
 }
 // USED FOR GENERAL INFO
 void UI::info(std::string_view message) {
     
     UI::changeOutPutColor(Color::Green);
-	std::cout << "Info: " << message << "\n:";
+	std::cout << "Info: " << message << "\n";
     UI::changeOutPutColor(Color::White);
 }
 // USED FOR PRINTING THE CURRENT RUNNING PROCESSS

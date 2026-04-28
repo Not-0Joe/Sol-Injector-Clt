@@ -25,6 +25,9 @@ void Controller::useMenuOption(InputHandler::RequestedOption option)
 				{
 					case InputHandler::InjectionMethod::loadlibraryWithRemoteThread:
 					{
+						UI::info("\n======================================================================\nWARRNING THIS METHOD OF INJECTION WILL BE DETECTED BY ANY PROTECTED TARGET\nonly use this method on un-protected targets!\n=======================================================================");
+
+
 						const std::wstring dllPath = InputHandler::getDllPath();
 						bool resultOFInjection = InjectionOptions::LoadLibraryWithRemoteThread(pid, dllPath);
 						
@@ -32,13 +35,11 @@ void Controller::useMenuOption(InputHandler::RequestedOption option)
 						{
 							UI::success("LoadLibrary Injection Done");
 							Utils::clearAndIgnoreInput();
-							Utils::waitForKey();
 							break;
 						}
 
 						UI::error("Injection failed");
 						Utils::clearAndIgnoreInput();
-						Utils::waitForKey();
 						break;
 					}
 
@@ -48,7 +49,6 @@ void Controller::useMenuOption(InputHandler::RequestedOption option)
 			{
 				UI::error("Process was not found. make sure its running and try again");
 				Utils::clearAndIgnoreInput();
-				Utils::waitForKey();
 				return;
 			}
 
@@ -59,7 +59,6 @@ void Controller::useMenuOption(InputHandler::RequestedOption option)
 			ProcessManager::listAllProcesses();
 			UI::info("All processes have been listed. press any key");
 			Utils::clearAndIgnoreInput();
-			Utils::waitForKey();
 			break;
 		}
 		case InputHandler::CopyDiscordLink:
@@ -68,7 +67,6 @@ void Controller::useMenuOption(InputHandler::RequestedOption option)
 			Utils::copyDiscordLink(discordLink);
 			UI::info("Link Copied to clipbord");
 			Utils::clearAndIgnoreInput();
-			Utils::waitForKey();
 			break;
 		}
 		default:
